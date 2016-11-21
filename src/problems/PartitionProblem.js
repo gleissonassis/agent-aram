@@ -1,12 +1,25 @@
 var Utils = require('../utils/Utils');
 var AbstractProblem = require('./AbstractProblem');
 
+/**
+* The ParitionProblem class represents the classic problem: In number
+* theory and computer science, the partition problem (or number partitioning)
+* is the task of deciding whether a given multiset S of positive integers
+* can be partitioned into two subsets S1 and S2 such that the sum of the
+* numbers in S1 equals the sum of the numbers in S2. 
+*/
 function PartitionProblem() {
   AbstractProblem.call(this);
 }
 
 PartitionProblem.prototype = Object.create(AbstractProblem.prototype);
 
+/**
+* The parseTestProblem method parses a string content represeting a problem.
+*
+* @param {string} content - A string represeting the problem, usually is
+* a content from a test problem file
+*/
 PartitionProblem.prototype.parseTestProblem = function(content) {
   var lines = content.split("\n");
   var numbers = [];
@@ -19,6 +32,11 @@ PartitionProblem.prototype.parseTestProblem = function(content) {
   this.setProblemInstance(numbers);
 };
 
+/**
+* The evaluateSolution method evaluates a solution returning its value
+*
+* @param {Object} solution - A feasible solution to the problem
+*/
 PartitionProblem.prototype.evaluateSolution = function(solution) {
   var partitionWeight = [0, 0];
 
@@ -31,13 +49,28 @@ PartitionProblem.prototype.evaluateSolution = function(solution) {
   return Math.abs(partitionWeight[0] - partitionWeight[1]);
 };
 
-AbstractProblem.prototype.setProblemInstance = function(problemInstance) {
+/**
+* The setProblemInstance method receives a problem instance and perform tasks to
+* trasnform in a valid instance
+*
+* @param {object} problemInstance - A problem instance
+*/
+PartitionProblem.prototype.setProblemInstance = function(problemInstance) {
   this.problemInstance = problemInstance;
 
   this.problemInstance.sort(Utils.compareNumbers);
   this.problemInstance.reverse();
 };
 
+/**
+* The distubSolution method perform a disturbance on a solution given a
+* level. For this implementation the leval equals to 1 will realocate a numbers
+* to another partition and the level equals to 2 will swap 2 random numbers
+* beetwen the partitions
+*
+* @param {object} solution - A feasible solution to be disturbed
+* @param {int} level - The level applied to the disturbance
+*/
 PartitionProblem.prototype.disturbSolution = function(solution, level) {
   var newSolution = solution.slice(0);
 
@@ -66,10 +99,20 @@ PartitionProblem.prototype.disturbSolution = function(solution, level) {
   }
 };
 
+/**
+* The generateNeighborhood method generates all the neighborhood to a given
+* solution. For this implementation the following movments will be used to
+* generate neighbor solutions:
+*
+* 1st movment: realocate a number to another partition
+* 2nd moviment: swap two numbers beetwen its partitions
+*
+* @param {object} solution - A feasible solution
+*/
 PartitionProblem.prototype.generateNeighborhood = function(solution) {
   var neighborhood = [];
 
-  //generating neighboorhood to the 1st movement
+  //generating neighborhood to the 1st movement
   for(var i = 0; i < solution.length; i++) {
     var newSolution = solution.slice(0);
     newSolution[i] = newSolution[i] == 0 ? 1 : 0;
@@ -77,7 +120,7 @@ PartitionProblem.prototype.generateNeighborhood = function(solution) {
     neighborhood.push(newSolution);
   }
 
-  //generating neighboorhood to the 2nd movement
+  //generating neighborhood to the 2nd movement
   for(var i = 0; i < solution.length; i++) {
     for(var j = i + 1; j < solution.length; j++) {
       var newSolution = solution.slice(0);
@@ -93,8 +136,11 @@ PartitionProblem.prototype.generateNeighborhood = function(solution) {
 },
 
 /**
- * The generateSolution returns a feasible solution for the
- * Partition Problem.
+ * The generateSolution method returns a feasible solution based on a given
+ * selector
+ *
+ * @param {Selector} selector - A valid selector (GreedySelector,
+ * RandomSelector, GRASPSelector)
  */
 PartitionProblem.prototype.generateSolution = function(selector) {
   var solution = [];
@@ -129,7 +175,7 @@ PartitionProblem.prototype.generateSolution = function(selector) {
 }
 
 /**
- * The generateSolution returns a feasible solution for the
+ * The generateRandomSolution method returns a random feasible solution for the
  * Partition Problem.
  */
 PartitionProblem.prototype.generateRandomSolution = function() {
