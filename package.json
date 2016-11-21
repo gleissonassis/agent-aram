@@ -1,0 +1,23 @@
+{
+  "name": "agent-aram",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gleissonassis/agent-aram.git"
+  },
+  "author": "Gleisson de Assis <gleisson.assis@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gleissonassis/agent-aram/issues"
+  },
+  "homepage": "https://github.com/gleissonassis/agent-aram#readme",
+  "dependencies": {
+    "seedrandom": "^2.4.2"
+  }
+}
